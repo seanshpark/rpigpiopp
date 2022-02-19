@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-#include <base/base.h>
-
 #include "node_wrap.h"
+
+#include <base/base.h>
 
 #include <iostream>
 
