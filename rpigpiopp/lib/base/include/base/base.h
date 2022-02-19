@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-#ifndef __RPIGPIOPPLIB_BASE_H__
-#define __RPIGPIOPPLIB_BASE_H__
+#ifndef __RPIGPIOPP_LIB_BASE_H__
+#define __RPIGPIOPP_LIB_BASE_H__
 
 #include <cstdint>
 
@@ -27,4 +27,4 @@ int32_t world(void);
 
 } // namespace rpiopp
 
-#endif // __RPIGPIOPPLIB_BASE_H__
+#endif // __RPIGPIOPP_LIB_BASE_H__
