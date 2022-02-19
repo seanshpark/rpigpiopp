@@ -1,0 +1,17 @@
+NODE=$(shell which node)
+
+# default make target
+all: cfg debug
+
+cfg:
+	node-gyp configure
+
+debug:
+	node-gyp build
+
+clean:
+	rm -rf build
+
+run:
+	$(NODE) app/hello/main.js
+
