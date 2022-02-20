@@ -14,40 +14,32 @@
  * limitations under the License.
  */
 
-#ifndef __RPIGPIOPP_API_WRAPPER_H__
-#define __RPIGPIOPP_API_WRAPPER_H__
+#ifndef __RPIGPIOPP_LIB_GPIO_ADDRINFO_H__
+#define __RPIGPIOPP_LIB_GPIO_ADDRINFO_H__
 
-#include "node_wrap.h"
-
-#include <Gpio/Gpio.h>
+#include <sys/mman.h>
+#include <cstdint>
 
 namespace rpigpiopp
 {
 
-class Wrapper : public node::ObjectWrap
+struct AddrInfo
 {
-public:
-  static void Init(v8::Local<v8::Object> exports);
+  // peripheral base
+  virtual uint32_t base(void) = 0;
+  // gpio base
+  virtual uint32_t gpio(void) = 0;
+  // gpio size
+  virtual uint32_t size(void) = 0;
+};
 
-private:
-  static void New(const v8::FunctionCallbackInfo<v8::Value> &args);
-
-private:
-  static void Init(const v8::FunctionCallbackInfo<v8::Value> &args);
-  static void Release(const v8::FunctionCallbackInfo<v8::Value> &args);
-
-public:
-  uint32_t id() { return _id; }
-  Gpio &gpio() { return _gpio; }
-
-private:
-  explicit Wrapper();
-  ~Wrapper();
-
-  uint32_t _id = 0;
-  Gpio _gpio;
+struct AddrRPi3 : public AddrInfo
+{
+  uint32_t base(void) override { return 0x3F000000; }
+  uint32_t gpio(void) override { return 0x00200000; }
+  uint32_t size(void) override { return 0x00000100; }
 };
 
 } // namespace rpigpiopp
 
-#endif // __RPIGPIOPP_API_WRAPPER_H__
+#endif // __RPIGPIOPP_LIB_GPIO_ADDRINFO_H__

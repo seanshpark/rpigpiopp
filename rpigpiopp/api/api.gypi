@@ -5,6 +5,7 @@
 
       "dependencies": [
         "base",
+        "gpio",
       ],
       "sources": [
         "src/rpigpiopp.cpp",

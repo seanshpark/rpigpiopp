@@ -16,6 +16,8 @@
 
 #include "Wrapper.h"
 
+#include <Gpio/Gpio.h>
+
 #include <cassert>
 #include <iostream>
 
@@ -96,12 +98,16 @@ void Wrapper::Init(const v8::FunctionCallbackInfo<v8::Value> &args)
 {
   Wrapper *obj = node::ObjectWrap::Unwrap<Wrapper>(args.Holder());
   assert(obj != nullptr);
+
+  obj->gpio().init();
 }
 
 void Wrapper::Release(const v8::FunctionCallbackInfo<v8::Value> &args)
 {
   Wrapper *obj = node::ObjectWrap::Unwrap<Wrapper>(args.Holder());
   assert(obj != nullptr);
+
+  obj->gpio().release();
 }
 
 } // namespace rpigpiopp

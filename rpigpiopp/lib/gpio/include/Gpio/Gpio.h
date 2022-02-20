@@ -14,40 +14,31 @@
  * limitations under the License.
  */
 
-#ifndef __RPIGPIOPP_API_WRAPPER_H__
-#define __RPIGPIOPP_API_WRAPPER_H__
+#ifndef __RPIGPIOPP_LIB_GPIO_H__
+#define __RPIGPIOPP_LIB_GPIO_H__
 
-#include "node_wrap.h"
-
-#include <Gpio/Gpio.h>
+#include <sys/mman.h>
+#include <cstdint>
 
 namespace rpigpiopp
 {
 
-class Wrapper : public node::ObjectWrap
+class Gpio
 {
 public:
-  static void Init(v8::Local<v8::Object> exports);
-
-private:
-  static void New(const v8::FunctionCallbackInfo<v8::Value> &args);
-
-private:
-  static void Init(const v8::FunctionCallbackInfo<v8::Value> &args);
-  static void Release(const v8::FunctionCallbackInfo<v8::Value> &args);
+  Gpio();
+  virtual ~Gpio();
 
 public:
-  uint32_t id() { return _id; }
-  Gpio &gpio() { return _gpio; }
+  bool init(void);
+  void release(void);
 
 private:
-  explicit Wrapper();
-  ~Wrapper();
-
-  uint32_t _id = 0;
-  Gpio _gpio;
+  int _mem_fd = -1;
+  void *_gpio_map = MAP_FAILED;
+  size_t _gpio_size = 0;
 };
 
 } // namespace rpigpiopp
 
-#endif // __RPIGPIOPP_API_WRAPPER_H__
+#endif // __RPIGPIOPP_LIB_GPIO_H__
