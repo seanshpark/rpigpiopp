@@ -15,3 +15,6 @@ clean:
 run:
 	$(NODE) app/hello/main.js
 
+format:
+	@find rpigpiopp -type f \( -name '*.cpp' -o -name '*.h' \) | xargs clang-format -i
+	@find app -type f \( -name '*.ts' -o -name '*.js' \) | xargs clang-format -i

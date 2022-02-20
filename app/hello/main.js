@@ -17,7 +17,7 @@ function exitHandler(options, exitCode) {
 }
 
 process.stdin.resume();
-process.on('SIGINT', exitHandler.bind(null, {exit:true})); // ctrl+c
-process.on('exit', exitHandler.bind(null,{cleanup:true})); // app closing
+process.on('SIGINT', exitHandler.bind(null, {exit: true}));   // ctrl+c
+process.on('exit', exitHandler.bind(null, {cleanup: true}));  // app closing
 
-console.log("press ctrl+c to quit.")
+console.log('press ctrl+c to quit.')

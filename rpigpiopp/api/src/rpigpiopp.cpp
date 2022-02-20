@@ -20,14 +20,14 @@
 
 #include <base/base.h>
 
-void hello(const v8::FunctionCallbackInfo<v8::Value>&)
+void hello(const v8::FunctionCallbackInfo<v8::Value> &)
 {
   rpigpiopp::hello();
   rpigpiopp::world();
 }
 
-extern "C" NODE_MODULE_EXPORT
-void Initialize(v8::Local<v8::Object> exports, v8::Local<v8::Value>, void *)
+extern "C" NODE_MODULE_EXPORT void Initialize(v8::Local<v8::Object> exports, v8::Local<v8::Value>,
+                                              void *)
 {
   rpigpiopp::Wrapper::Init(exports);
 
