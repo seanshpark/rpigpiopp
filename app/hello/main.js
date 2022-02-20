@@ -9,9 +9,13 @@ rpigpiopp.init();
 
 rpigpiopp.hello();
 
+const gpiobj = new rpigpiopp.Gpio();
+gpiobj.init();
+
 function exitHandler(options, exitCode) {
   if (options.exit) {
     rpigpiopp.release();
+    gpiobj.release();
     process.exit(exitCode);
   }
 }

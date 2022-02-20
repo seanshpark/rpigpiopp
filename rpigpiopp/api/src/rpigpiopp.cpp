@@ -16,6 +16,8 @@
 
 #include "node_wrap.h"
 
+#include "Wrapper.h"
+
 #include <base/base.h>
 
 #include <iostream>
@@ -39,6 +41,8 @@ void hello(const v8::FunctionCallbackInfo<v8::Value>&)
 extern "C" NODE_MODULE_EXPORT
 void Initialize(v8::Local<v8::Object> exports, v8::Local<v8::Value>, void *)
 {
+  rpigpiopp::Wrapper::Init(exports);
+
    NODE_SET_METHOD(exports, "init", init);
    NODE_SET_METHOD(exports, "release", release);
    NODE_SET_METHOD(exports, "hello", hello);

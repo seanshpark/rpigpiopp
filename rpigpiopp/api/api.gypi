@@ -8,9 +8,11 @@
       ],
       "sources": [
         "src/rpigpiopp.cpp",
+        "src/Wrapper.cpp",
       ],
       "include_dirs": [
-        "../lib/base/include"
+        "../lib/base/include",
+        "../lib/gpio/include",
       ],
     }
   ]
