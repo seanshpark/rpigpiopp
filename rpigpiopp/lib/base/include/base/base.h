@@ -19,12 +19,12 @@
 
 #include <cstdint>
 
-namespace rpigiopp
+namespace rpigpiopp
 {
 
 int32_t hello(void);
 int32_t world(void);
 
-} // namespace rpiopp
+} // namespace rpigpiopp
 
 #endif // __RPIGPIOPP_LIB_BASE_H__

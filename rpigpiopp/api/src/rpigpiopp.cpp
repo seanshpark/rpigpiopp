@@ -32,8 +32,8 @@ void release(const v8::FunctionCallbackInfo<v8::Value>&)
 
 void hello(const v8::FunctionCallbackInfo<v8::Value>&)
 {
-  rpigiopp::hello();
-  rpigiopp::world();
+  rpigpiopp::hello();
+  rpigpiopp::world();
 }
 
 extern "C" NODE_MODULE_EXPORT

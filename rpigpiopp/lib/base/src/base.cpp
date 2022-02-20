@@ -18,7 +18,7 @@
 
 #include <iostream>
 
-namespace rpigiopp
+namespace rpigpiopp
 {
 
 int32_t hello(void)
@@ -33,4 +33,4 @@ int32_t world(void)
   return 0;
 }
 
-} // namespace rpiopp
+} // namespace rpigpiopp
