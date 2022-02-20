@@ -3,7 +3,7 @@
 //
 
 // TODO fix load path
-const rpigpiopp = require(process.cwd() + '/build/Release/rpigpiopp');
+const rpigpiopp = require(process.cwd() + '/build/Debug/rpigpiopp');
 
 rpigpiopp.init();
 
