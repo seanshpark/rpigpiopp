@@ -4,9 +4,6 @@
 
 // TODO fix load path
 const rpigpiopp = require(process.cwd() + '/build/Debug/rpigpiopp');
-
-rpigpiopp.init();
-
 rpigpiopp.hello();
 
 const gpiobj = new rpigpiopp.Gpio();
@@ -14,7 +11,6 @@ gpiobj.init();
 
 function exitHandler(options, exitCode) {
   if (options.exit) {
-    rpigpiopp.release();
     gpiobj.release();
     process.exit(exitCode);
   }

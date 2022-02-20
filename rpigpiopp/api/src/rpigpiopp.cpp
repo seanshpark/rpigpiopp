@@ -20,18 +20,6 @@
 
 #include <base/base.h>
 
-#include <iostream>
-
-void init(const v8::FunctionCallbackInfo<v8::Value>&)
-{
-  // TODO do init
-}
-
-void release(const v8::FunctionCallbackInfo<v8::Value>&)
-{
-  // TODO do release
-}
-
 void hello(const v8::FunctionCallbackInfo<v8::Value>&)
 {
   rpigpiopp::hello();
@@ -43,9 +31,7 @@ void Initialize(v8::Local<v8::Object> exports, v8::Local<v8::Value>, void *)
 {
   rpigpiopp::Wrapper::Init(exports);
 
-   NODE_SET_METHOD(exports, "init", init);
-   NODE_SET_METHOD(exports, "release", release);
-   NODE_SET_METHOD(exports, "hello", hello);
+  NODE_SET_METHOD(exports, "hello", hello);
 }
 
 NODE_MODULE(rpigpiopp, Initialize);
