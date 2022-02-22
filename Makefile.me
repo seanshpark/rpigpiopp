@@ -13,7 +13,7 @@ clean:
 	rm -rf build
 
 run:
-	$(NODE) app/hello/main.js
+	$(NODE) app/blink/main.js
 
 format:
 	@find rpigpiopp -type f \( -name '*.cpp' -o -name '*.h' \) | xargs clang-format -i

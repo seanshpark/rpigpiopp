@@ -63,12 +63,32 @@ void Wrapper::Init(v8::Local<v8::Object> exports)
 
   // Prototype methods
   // TODO add methods here
-  NODE_SET_PROTOTYPE_METHOD(tpl, "init", Init);
-  NODE_SET_PROTOTYPE_METHOD(tpl, "release", Release);
+  NODE_SET_PROTOTYPE_METHOD(tpl, "init", API_init);
+  NODE_SET_PROTOTYPE_METHOD(tpl, "release", API_release);
+
+  NODE_SET_PROTOTYPE_METHOD(tpl, "pin", API_pin);
+  NODE_SET_PROTOTYPE_METHOD(tpl, "set", API_set);
+  // TODO add "get"
 
   v8::Local<v8::Function> constructor = tpl->GetFunction(context).ToLocalChecked();
   data->SetInternalField(0, constructor);
   exports->Set(context, v8::String::NewFromUtf8(isolate, "Gpio").ToLocalChecked(), constructor)
+    .FromJust();
+
+  // const DEF = rpigpiopp.DEF;
+  v8::Local<v8::Object> obj_def = v8::Object::New(isolate);
+  exports->Set(context, v8::String::NewFromUtf8(isolate, "DEF").ToLocalChecked(), obj_def)
+    .FromJust();
+  // TODO make readonly
+  // DEF.IN
+  obj_def
+    ->Set(context, v8::String::NewFromUtf8(isolate, "IN").ToLocalChecked(),
+          v8::Integer::New(isolate, Gpio::PIN::IN))
+    .FromJust();
+  // DEF.OUT
+  obj_def
+    ->Set(context, v8::String::NewFromUtf8(isolate, "OUT").ToLocalChecked(),
+          v8::Integer::New(isolate, Gpio::PIN::OUT))
     .FromJust();
 }
 
@@ -94,7 +114,7 @@ void Wrapper::New(const v8::FunctionCallbackInfo<v8::Value> &args)
   }
 }
 
-void Wrapper::Init(const v8::FunctionCallbackInfo<v8::Value> &args)
+void Wrapper::API_init(const v8::FunctionCallbackInfo<v8::Value> &args)
 {
   Wrapper *obj = node::ObjectWrap::Unwrap<Wrapper>(args.Holder());
   assert(obj != nullptr);
@@ -102,12 +122,53 @@ void Wrapper::Init(const v8::FunctionCallbackInfo<v8::Value> &args)
   obj->gpio().init();
 }
 
-void Wrapper::Release(const v8::FunctionCallbackInfo<v8::Value> &args)
+void Wrapper::API_release(const v8::FunctionCallbackInfo<v8::Value> &args)
 {
   Wrapper *obj = node::ObjectWrap::Unwrap<Wrapper>(args.Holder());
   assert(obj != nullptr);
 
   obj->gpio().release();
+}
+
+// pin(number, attributes): Set pin attributes
+//  number: port number
+//  atteibutes
+//    direction: IN or OUT
+void Wrapper::API_pin(const v8::FunctionCallbackInfo<v8::Value> &args)
+{
+  Wrapper *obj = node::ObjectWrap::Unwrap<Wrapper>(args.Holder());
+  assert(obj != nullptr);
+  v8::Isolate *isolate = args.GetIsolate();
+  v8::Local<v8::Context> context = isolate->GetCurrentContext();
+  if (args.Length() != 2)
+  {
+    auto msg = v8::String::NewFromUtf8(isolate, "Requre 2 arguments").ToLocalChecked();
+    isolate->ThrowException(v8::Exception::TypeError(msg));
+    return;
+  }
+
+  auto port = args[0]->IntegerValue(context).FromJust();
+  auto value = args[1]->IntegerValue(context).FromJust();
+
+  std::cout << "!!! pin: " << port << ": " << value << std::endl;
+}
+
+void Wrapper::API_set(const v8::FunctionCallbackInfo<v8::Value> &args)
+{
+  Wrapper *obj = node::ObjectWrap::Unwrap<Wrapper>(args.Holder());
+  assert(obj != nullptr);
+  v8::Isolate *isolate = args.GetIsolate();
+  v8::Local<v8::Context> context = isolate->GetCurrentContext();
+  if (args.Length() != 2)
+  {
+    auto msg = v8::String::NewFromUtf8(isolate, "Requre 2 arguments").ToLocalChecked();
+    isolate->ThrowException(v8::Exception::TypeError(msg));
+    return;
+  }
+
+  auto port = args[0]->IntegerValue(context).FromJust();
+  auto value = args[1]->IntegerValue(context).FromJust();
+  std::cout << "!!! out: " << port << ": " << value << std::endl;
 }
 
 } // namespace rpigpiopp

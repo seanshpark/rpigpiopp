@@ -26,6 +26,13 @@ namespace rpigpiopp
 class Gpio
 {
 public:
+  enum PIN
+  {
+    IN = 1,
+    OUT = 2,
+  };
+
+public:
   Gpio();
   virtual ~Gpio();
 

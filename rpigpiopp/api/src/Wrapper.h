@@ -33,8 +33,11 @@ private:
   static void New(const v8::FunctionCallbackInfo<v8::Value> &args);
 
 private:
-  static void Init(const v8::FunctionCallbackInfo<v8::Value> &args);
-  static void Release(const v8::FunctionCallbackInfo<v8::Value> &args);
+  static void API_init(const v8::FunctionCallbackInfo<v8::Value> &args);
+  static void API_release(const v8::FunctionCallbackInfo<v8::Value> &args);
+
+  static void API_pin(const v8::FunctionCallbackInfo<v8::Value> &args);
+  static void API_set(const v8::FunctionCallbackInfo<v8::Value> &args);
 
 public:
   uint32_t id() { return _id; }
