@@ -10,6 +10,7 @@
   "author": "SeanPark",
   "license": "Apache-2.0",
   "dependencies": {
+    "node-addon-api": "^4.3.0",
     "node-gyp": "^8.4.1"
   }
 }

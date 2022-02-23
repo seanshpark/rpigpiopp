@@ -22,6 +22,9 @@ process.on('exit', exitHandler.bind(null, {cleanup: true}));  // app closing
 
 console.log('press ctrl+c to quit.')
 
+ret = rpigpiopp.hello();
+console.log('check hello = ', ret);
+
 console.log('DEF.OUT = ', DEF.OUT);
 // DEF.OUT = 100;
 // console.log('DEF.OUT = ', DEF.OUT);

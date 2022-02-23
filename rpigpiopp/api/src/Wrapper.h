@@ -24,29 +24,26 @@
 namespace rpigpiopp
 {
 
-class Wrapper : public node::ObjectWrap
+class Wrapper : public Napi::ObjectWrap<Wrapper>
 {
 public:
-  static void Init(v8::Local<v8::Object> exports);
+  Wrapper(const Napi::CallbackInfo &info);
+
+public:
+  static Napi::Object Init(Napi::Env env, Napi::Object exports);
 
 private:
-  static void New(const v8::FunctionCallbackInfo<v8::Value> &args);
+  Napi::Value API_init(const Napi::CallbackInfo &info);
+  Napi::Value API_release(const Napi::CallbackInfo &info);
 
-private:
-  static void API_init(const v8::FunctionCallbackInfo<v8::Value> &args);
-  static void API_release(const v8::FunctionCallbackInfo<v8::Value> &args);
-
-  static void API_pin(const v8::FunctionCallbackInfo<v8::Value> &args);
-  static void API_set(const v8::FunctionCallbackInfo<v8::Value> &args);
+  Napi::Value API_pin(const Napi::CallbackInfo &info);
+  Napi::Value API_set(const Napi::CallbackInfo &info);
 
 public:
   uint32_t id() { return _id; }
   Gpio &gpio() { return _gpio; }
 
 private:
-  explicit Wrapper();
-  ~Wrapper();
-
   uint32_t _id = 0;
   Gpio _gpio;
 };

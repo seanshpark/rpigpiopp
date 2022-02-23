@@ -38,137 +38,89 @@ uint32_t __get_uid(void)
 namespace rpigpiopp
 {
 
-Wrapper::Wrapper()
+Napi::Object Wrapper::Init(Napi::Env env, Napi::Object exports)
+{
+  Napi::Function func = DefineClass(
+    env, "Gpio",
+    {InstanceMethod("init", &Wrapper::API_init), InstanceMethod("release", &Wrapper::API_release),
+     InstanceMethod("pin", &Wrapper::API_pin), InstanceMethod("set", &Wrapper::API_set)});
+
+  Napi::FunctionReference *constructor = new Napi::FunctionReference();
+  *constructor = Napi::Persistent(func);
+  env.SetInstanceData(constructor);
+
+  exports.Set("Gpio", func);
+
+  Napi::Object obj_def = Napi::Object::New(env);
+  obj_def.Set(Napi::String::New(env, "IN"), Napi::Number::New(env, Gpio::PIN::IN));
+  obj_def.Set(Napi::String::New(env, "OUT"), Napi::Number::New(env, Gpio::PIN::OUT));
+
+  exports.Set("DEF", obj_def);
+
+  return exports;
+}
+
+Wrapper::Wrapper(const Napi::CallbackInfo &info) : Napi::ObjectWrap<Wrapper>(info)
 {
   _id = __get_uid();
+
   std::cout << "Wrapper::Wrapper " << this << ": " << _id << std::endl;
 }
 
-Wrapper::~Wrapper() { std::cout << "Wrapper::~Wrapper " << this << ": " << _id << std::endl; }
-
-void Wrapper::Init(v8::Local<v8::Object> exports)
+Napi::Value Wrapper::API_init(const Napi::CallbackInfo &info)
 {
-  v8::Isolate *isolate = exports->GetIsolate();
-  v8::Local<v8::Context> context = isolate->GetCurrentContext();
+  Napi::Env env = info.Env();
 
-  // Prepare addon data template
-  v8::Local<v8::ObjectTemplate> data_tpl = v8::ObjectTemplate::New(isolate);
-  data_tpl->SetInternalFieldCount(1); // 1 field for the Wrapper::New()
-  v8::Local<v8::Object> data = data_tpl->NewInstance(context).ToLocalChecked();
+  this->gpio().init();
 
-  // Prepare constructor template
-  v8::Local<v8::FunctionTemplate> tpl = v8::FunctionTemplate::New(isolate, New, data);
-  tpl->SetClassName(v8::String::NewFromUtf8(isolate, "Gpio").ToLocalChecked());
-  tpl->InstanceTemplate()->SetInternalFieldCount(1);
-
-  // Prototype methods
-  // TODO add methods here
-  NODE_SET_PROTOTYPE_METHOD(tpl, "init", API_init);
-  NODE_SET_PROTOTYPE_METHOD(tpl, "release", API_release);
-
-  NODE_SET_PROTOTYPE_METHOD(tpl, "pin", API_pin);
-  NODE_SET_PROTOTYPE_METHOD(tpl, "set", API_set);
-  // TODO add "get"
-
-  v8::Local<v8::Function> constructor = tpl->GetFunction(context).ToLocalChecked();
-  data->SetInternalField(0, constructor);
-  exports->Set(context, v8::String::NewFromUtf8(isolate, "Gpio").ToLocalChecked(), constructor)
-    .FromJust();
-
-  // const DEF = rpigpiopp.DEF;
-  v8::Local<v8::Object> obj_def = v8::Object::New(isolate);
-  exports->Set(context, v8::String::NewFromUtf8(isolate, "DEF").ToLocalChecked(), obj_def)
-    .FromJust();
-  // TODO make readonly
-  // DEF.IN
-  obj_def
-    ->Set(context, v8::String::NewFromUtf8(isolate, "IN").ToLocalChecked(),
-          v8::Integer::New(isolate, Gpio::PIN::IN))
-    .FromJust();
-  // DEF.OUT
-  obj_def
-    ->Set(context, v8::String::NewFromUtf8(isolate, "OUT").ToLocalChecked(),
-          v8::Integer::New(isolate, Gpio::PIN::OUT))
-    .FromJust();
+  return Napi::Number::New(env, 0);
 }
 
-void Wrapper::New(const v8::FunctionCallbackInfo<v8::Value> &args)
+Napi::Value Wrapper::API_release(const Napi::CallbackInfo &info)
 {
-  v8::Isolate *isolate = args.GetIsolate();
-  v8::Local<v8::Context> context = isolate->GetCurrentContext();
+  Napi::Env env = info.Env();
 
-  if (args.IsConstructCall())
-  {
-    // Invoked as constructor: `new Gpio(...)`
-    Wrapper *obj = new Wrapper();
-    obj->Wrap(args.This());
-    args.GetReturnValue().Set(args.This());
-  }
-  else
-  {
-    // Invoked as plain function `Gpio(...)`, turn into construct call.
-    v8::Local<v8::Function> cons =
-      args.Data().As<v8::Object>()->GetInternalField(0).As<v8::Function>();
-    v8::Local<v8::Object> result = cons->NewInstance(context).ToLocalChecked();
-    args.GetReturnValue().Set(result);
-  }
-}
+  this->gpio().release();
 
-void Wrapper::API_init(const v8::FunctionCallbackInfo<v8::Value> &args)
-{
-  Wrapper *obj = node::ObjectWrap::Unwrap<Wrapper>(args.Holder());
-  assert(obj != nullptr);
-
-  obj->gpio().init();
-}
-
-void Wrapper::API_release(const v8::FunctionCallbackInfo<v8::Value> &args)
-{
-  Wrapper *obj = node::ObjectWrap::Unwrap<Wrapper>(args.Holder());
-  assert(obj != nullptr);
-
-  obj->gpio().release();
+  return Napi::Number::New(env, 0);
 }
 
 // pin(number, attributes): Set pin attributes
 //  number: port number
 //  atteibutes
 //    direction: IN or OUT
-void Wrapper::API_pin(const v8::FunctionCallbackInfo<v8::Value> &args)
+Napi::Value Wrapper::API_pin(const Napi::CallbackInfo &info)
 {
-  Wrapper *obj = node::ObjectWrap::Unwrap<Wrapper>(args.Holder());
-  assert(obj != nullptr);
-  v8::Isolate *isolate = args.GetIsolate();
-  v8::Local<v8::Context> context = isolate->GetCurrentContext();
-  if (args.Length() != 2)
+  Napi::Env env = info.Env();
+
+  if (info.Length() != 2)
   {
-    auto msg = v8::String::NewFromUtf8(isolate, "Requre 2 arguments").ToLocalChecked();
-    isolate->ThrowException(v8::Exception::TypeError(msg));
-    return;
+    Napi::Error::New(env, "Requre 2 arguments(port, value)").ThrowAsJavaScriptException();
   }
 
-  auto port = args[0]->IntegerValue(context).FromJust();
-  auto value = args[1]->IntegerValue(context).FromJust();
+  auto port = info[0].As<Napi::Number>();
+  auto value = info[1].As<Napi::Number>();
 
-  std::cout << "!!! pin: " << port << ": " << value << std::endl;
+  std::cout << "!!! pin: " << port.Int32Value() << ": " << value.Int32Value() << std::endl;
+
+  return Napi::Number::New(env, 0);
 }
 
-void Wrapper::API_set(const v8::FunctionCallbackInfo<v8::Value> &args)
+Napi::Value Wrapper::API_set(const Napi::CallbackInfo &info)
 {
-  Wrapper *obj = node::ObjectWrap::Unwrap<Wrapper>(args.Holder());
-  assert(obj != nullptr);
-  v8::Isolate *isolate = args.GetIsolate();
-  v8::Local<v8::Context> context = isolate->GetCurrentContext();
-  if (args.Length() != 2)
+  Napi::Env env = info.Env();
+
+  if (info.Length() != 2)
   {
-    auto msg = v8::String::NewFromUtf8(isolate, "Requre 2 arguments").ToLocalChecked();
-    isolate->ThrowException(v8::Exception::TypeError(msg));
-    return;
+    Napi::Error::New(env, "Requre 2 arguments(port, value)").ThrowAsJavaScriptException();
   }
 
-  auto port = args[0]->IntegerValue(context).FromJust();
-  auto value = args[1]->IntegerValue(context).FromJust();
-  std::cout << "!!! out: " << port << ": " << value << std::endl;
+  auto port = info[0].As<Napi::Number>();
+  auto value = info[1].As<Napi::Number>();
+
+  std::cout << "!!! set: " << port.Int32Value() << ": " << value.Int32Value() << std::endl;
+
+  return Napi::Number::New(env, 0);
 }
 
 } // namespace rpigpiopp

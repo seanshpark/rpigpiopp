@@ -17,7 +17,7 @@
 #ifndef __RPIGPIOPP_API_NODE_WRAP_H__
 #define __RPIGPIOPP_API_NODE_WRAP_H__
 
-#include <node.h>
-#include <node_object_wrap.h>
+#define NAPI_VERSION 8
+#include <napi.h>
 
 #endif // __RPIGPIOPP_API_NODE_WRAP_H__

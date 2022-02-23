@@ -20,18 +20,21 @@
 
 #include <base/base.h>
 
-void hello(const v8::FunctionCallbackInfo<v8::Value> &)
+Napi::Value Hello(const Napi::CallbackInfo &info)
 {
   rpigpiopp::hello();
   rpigpiopp::world();
+
+  return Napi::Value(); // undefined
 }
 
-extern "C" NODE_MODULE_EXPORT void Initialize(v8::Local<v8::Object> exports, v8::Local<v8::Value>,
-                                              void *)
+Napi::Object Initialize(Napi::Env env, Napi::Object exports)
 {
-  rpigpiopp::Wrapper::Init(exports);
+  exports.Set(Napi::String::New(env, "hello"), Napi::Function::New(env, Hello));
 
-  NODE_SET_METHOD(exports, "hello", hello);
+  return rpigpiopp::Wrapper::Init(env, exports);
 }
 
-NODE_MODULE(rpigpiopp, Initialize);
+NODE_API_MODULE(rpigpiopp, Initialize);
+
+// https://github.com/nodejs/node-addon-api/tree/main/doc
