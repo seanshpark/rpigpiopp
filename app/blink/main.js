@@ -11,6 +11,9 @@ gpiobj.init();
 
 function exitHandler(options, exitCode) {
   if (options.exit) {
+    gpiobj.set(23, true);
+    gpiobj.set(24, true);
+
     gpiobj.release();
     process.exit(exitCode);
   }
@@ -31,15 +34,15 @@ console.log('DEF.OUT = ', DEF.OUT);
 
 gpiobj.pin(23, DEF.OUT);
 gpiobj.pin(24, DEF.OUT);
-p23 = 1;
-p24 = 0;
+p23 = true;
+p24 = false;
 
 function timerInterval() {
   gpiobj.set(23, p23);
-  gpiobj.set(23, p24);
+  gpiobj.set(24, p24);
 
-  p23 = 1 - p23;
-  p24 = 1 - p24;
+  p23 = ! p23;
+  p24 = ! p24;
 }
 
 setInterval(timerInterval, 500);

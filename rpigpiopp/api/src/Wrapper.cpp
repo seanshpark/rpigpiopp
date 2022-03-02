@@ -102,6 +102,7 @@ Napi::Value Wrapper::API_pin(const Napi::CallbackInfo &info)
   auto value = info[1].As<Napi::Number>();
 
   std::cout << "!!! pin: " << port.Int32Value() << ": " << value.Int32Value() << std::endl;
+  this->gpio().cfg(port.Int32Value(), static_cast<Gpio::PIN>(value.Int32Value()));
 
   return Napi::Number::New(env, 0);
 }
@@ -116,9 +117,10 @@ Napi::Value Wrapper::API_set(const Napi::CallbackInfo &info)
   }
 
   auto port = info[0].As<Napi::Number>();
-  auto value = info[1].As<Napi::Number>();
+  auto value = info[1].As<Napi::Boolean>();
 
-  std::cout << "!!! set: " << port.Int32Value() << ": " << value.Int32Value() << std::endl;
+  std::cout << "!!! set: " << port.Int32Value() << ": " << (value.Value() ? "T" : "F") << std::endl;
+  this->gpio().set(port.Int32Value(), value.Value());
 
   return Napi::Number::New(env, 0);
 }

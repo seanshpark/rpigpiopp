@@ -40,6 +40,12 @@ public:
   bool init(void);
   void release(void);
 
+  void cfg(int32_t pin, PIN dir);
+  void set(int32_t pin, bool val);
+
+private:
+  uint32_t *addr(uint32_t offset) { return static_cast<uint32_t *>(_gpio_map) + offset; }
+
 private:
   int _mem_fd = -1;
   void *_gpio_map = MAP_FAILED;

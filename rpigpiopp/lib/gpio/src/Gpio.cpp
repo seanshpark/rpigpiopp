@@ -79,4 +79,34 @@ void Gpio::release(void)
   std::cout << "Gpio::release" << std::endl;
 }
 
+void Gpio::cfg(int32_t pin, PIN dir)
+{
+  const uint32_t FSEL_MASK = 0x07; // set as input with mask to clear bit
+  const uint32_t FSEL_SOUT = 0x01; // set as output
+  uint32_t offset = pin / 10;
+  uint32_t shift = (pin % 10) * 3;
+
+  if (dir == PIN::IN)
+  {
+    *(addr(offset)) &= ~(FSEL_MASK << shift);
+  }
+  else if (dir == PIN::OUT)
+  {
+    *(addr(offset)) |= (FSEL_SOUT << shift);
+  }
+}
+
+void Gpio::set(int32_t pin, bool val)
+{
+  // TODO move to header
+  const uint32_t GPSET0 = 0x001c;
+  const uint32_t GPCLR0 = 0x0028;
+
+  uint32_t setclr = val ? GPSET0 : GPCLR0;
+  uint32_t offset = setclr / 4 + pin / 32;
+  uint32_t shift = pin % 32;
+
+  *(addr(offset)) = 1 << shift;
+}
+
 } // namespace rpigpiopp
