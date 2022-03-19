@@ -40,21 +40,23 @@ namespace rpigpiopp
 
 Napi::Object Wrapper::Init(Napi::Env env, Napi::Object exports)
 {
-  Napi::Function func = DefineClass(
+  Napi::Function funcGpio = DefineClass(
     env, "Gpio",
     {InstanceMethod("init", &Wrapper::API_init), InstanceMethod("release", &Wrapper::API_release),
      InstanceMethod("pin", &Wrapper::API_pin), InstanceMethod("set", &Wrapper::API_set)});
 
   Napi::FunctionReference *constructor = new Napi::FunctionReference();
-  *constructor = Napi::Persistent(func);
+  *constructor = Napi::Persistent(funcGpio);
   env.SetInstanceData(constructor);
 
-  exports.Set("Gpio", func);
+  // GPIO
+  exports.Set("Gpio", funcGpio);
 
   Napi::Object obj_def = Napi::Object::New(env);
   obj_def.Set(Napi::String::New(env, "IN"), Napi::Number::New(env, Gpio::PIN::IN));
   obj_def.Set(Napi::String::New(env, "OUT"), Napi::Number::New(env, Gpio::PIN::OUT));
 
+  // DEF for GPIO
   exports.Set("DEF", obj_def);
 
   return exports;
