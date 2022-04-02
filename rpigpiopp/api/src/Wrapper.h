@@ -31,7 +31,7 @@ public:
   Wrapper(const Napi::CallbackInfo &info);
 
 public:
-  static Napi::Object Init(Napi::Env env, Napi::Object exports);
+  static void Init(Napi::Env &env, Napi::Object &exports);
 
 private:
   Napi::Value API_Gpio_init(const Napi::CallbackInfo &info);

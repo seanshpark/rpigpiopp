@@ -32,7 +32,9 @@ Napi::Object Initialize(Napi::Env env, Napi::Object exports)
 {
   exports.Set(Napi::String::New(env, "hello"), Napi::Function::New(env, Hello));
 
-  return rpigpiopp::Wrapper::Init(env, exports);
+  rpigpiopp::Wrapper::Init(env, exports);
+
+  return exports;
 }
 
 NODE_API_MODULE(rpigpiopp, Initialize);

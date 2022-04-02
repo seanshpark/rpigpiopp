@@ -38,7 +38,7 @@ uint32_t __get_uid(void)
 namespace rpigpiopp
 {
 
-Napi::Object Wrapper::Init(Napi::Env env, Napi::Object exports)
+void Wrapper::Init(Napi::Env &env, Napi::Object &exports)
 {
   // clang-format off
   Napi::Function funcGpio = DefineClass(env, "Gpio",
@@ -84,8 +84,6 @@ Napi::Object Wrapper::Init(Napi::Env env, Napi::Object exports)
   env.SetInstanceData(ctorTM3637);
 
   exports.Set("TM1637", funcTM1637);
-
-  return exports;
 }
 
 Wrapper::Wrapper(const Napi::CallbackInfo &info) : Napi::ObjectWrap<Wrapper>(info)
