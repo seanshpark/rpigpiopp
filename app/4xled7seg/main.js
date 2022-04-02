@@ -45,7 +45,8 @@ command = TM1637_CMD_DISPLAY | TM1637_DISPLAY_ON | 1;
 tm1637.write(command);
 
 // clear display
-tm1637data[0] = TM1637_CMD_ADDR | TM1637_ADDR_C0H;
+command = TM1637_CMD_ADDR | TM1637_ADDR_C0H;
+tm1637data[0] = command;
 tm1637data[1] = tm1637data[2] = tm1637data[3] = tm1637data[4] = 0;
 tm1637.writes(tm1637data);
 
@@ -63,14 +64,14 @@ var seg_data = [
 ];
 
 // set display 1234
-tm1637data[0] = TM1637_CMD_ADDR | TM1637_ADDR_C0H;  // command
+command = TM1637_CMD_ADDR | TM1637_ADDR_C0H;
+tm1637data[0] = command;
 for (i = 0; i < 4; ++i) {
   tm1637data[i + 1] = seg_data[i];
 }
 tm1637.writes(tm1637data);
 
 var idx_start = 0;
-var seg = [0, 0, 0, 0];
 var colon = false;
 
 function timerInterval() {
