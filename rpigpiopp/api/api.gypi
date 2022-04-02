@@ -9,6 +9,7 @@
       "dependencies": [
         "base",
         "gpio",
+        "tm1637",
       ],
       "sources": [
         "src/rpigpiopp.cpp",
@@ -18,6 +19,7 @@
         "<!@(node -p \"require('node-addon-api').include\")",
         "../lib/base/include",
         "../lib/gpio/include",
+        "../lib/tm1637/include",
       ],
       'defines': [ 'NAPI_CPP_EXCEPTIONS' ],
     }

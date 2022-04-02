@@ -43,6 +43,8 @@ public:
   void cfg(int32_t pin, PIN dir);
   void set(int32_t pin, bool val);
 
+  bool initialized(void) { return _mem_fd > 0; }
+
 private:
   uint32_t *addr(uint32_t offset) { return static_cast<uint32_t *>(_gpio_map) + offset; }
 

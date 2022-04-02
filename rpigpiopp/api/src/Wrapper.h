@@ -20,6 +20,7 @@
 #include "node_wrap.h"
 
 #include <Gpio/Gpio.h>
+#include <tm1637/tm1637.h>
 
 namespace rpigpiopp
 {
@@ -38,13 +39,27 @@ private:
   Napi::Value API_Gpio_pin(const Napi::CallbackInfo &info);
   Napi::Value API_Gpio_set(const Napi::CallbackInfo &info);
 
+  //
+  Napi::Value API_TM1637_init(const Napi::CallbackInfo &info);
+  Napi::Value API_TM1637_release(const Napi::CallbackInfo &info);
+  Napi::Value API_TM1637_write(const Napi::CallbackInfo &info);
+  Napi::Value API_TM1637_writes(const Napi::CallbackInfo &info);
+  Napi::Value API_TM1637_bright(const Napi::CallbackInfo &info);
+  Napi::Value API_TM1637_test(const Napi::CallbackInfo &info);
+
 public:
   uint32_t id() { return _id; }
-  Gpio &gpio() { return _gpio; }
+  Gpio &gpio() { return _gpio_base == nullptr ? _gpio : *_gpio_base; }
+  TM1637 &tm1637() { return _tm1637; }
 
 private:
   uint32_t _id = 0;
   Gpio _gpio;
+  TM1637 _tm1637;
+
+private:
+  Wrapper *_parent = nullptr;
+  Gpio *_gpio_base = nullptr;
 };
 
 } // namespace rpigpiopp
