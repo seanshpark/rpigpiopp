@@ -33,11 +33,10 @@ public:
   static Napi::Object Init(Napi::Env env, Napi::Object exports);
 
 private:
-  Napi::Value API_init(const Napi::CallbackInfo &info);
-  Napi::Value API_release(const Napi::CallbackInfo &info);
-
-  Napi::Value API_pin(const Napi::CallbackInfo &info);
-  Napi::Value API_set(const Napi::CallbackInfo &info);
+  Napi::Value API_Gpio_init(const Napi::CallbackInfo &info);
+  Napi::Value API_Gpio_release(const Napi::CallbackInfo &info);
+  Napi::Value API_Gpio_pin(const Napi::CallbackInfo &info);
+  Napi::Value API_Gpio_set(const Napi::CallbackInfo &info);
 
 public:
   uint32_t id() { return _id; }

@@ -40,10 +40,16 @@ namespace rpigpiopp
 
 Napi::Object Wrapper::Init(Napi::Env env, Napi::Object exports)
 {
-  Napi::Function funcGpio = DefineClass(
-    env, "Gpio",
-    {InstanceMethod("init", &Wrapper::API_init), InstanceMethod("release", &Wrapper::API_release),
-     InstanceMethod("pin", &Wrapper::API_pin), InstanceMethod("set", &Wrapper::API_set)});
+  // clang-format off
+  Napi::Function funcGpio = DefineClass(env, "Gpio",
+    {
+      InstanceMethod("init", &Wrapper::API_Gpio_init),
+      InstanceMethod("release", &Wrapper::API_Gpio_release),
+      InstanceMethod("pin", &Wrapper::API_Gpio_pin),
+      InstanceMethod("set", &Wrapper::API_Gpio_set)
+    }
+  );
+  // clang-format on
 
   Napi::FunctionReference *constructor = new Napi::FunctionReference();
   *constructor = Napi::Persistent(funcGpio);
@@ -69,16 +75,17 @@ Wrapper::Wrapper(const Napi::CallbackInfo &info) : Napi::ObjectWrap<Wrapper>(inf
   std::cout << "Wrapper::Wrapper " << this << ": " << _id << std::endl;
 }
 
-Napi::Value Wrapper::API_init(const Napi::CallbackInfo &info)
+Napi::Value Wrapper::API_Gpio_init(const Napi::CallbackInfo &info)
 {
   Napi::Env env = info.Env();
 
-  this->gpio().init();
+  if (!this->gpio().init())
+    Napi::Error::New(env, "gpio init failed").ThrowAsJavaScriptException();
 
   return Napi::Number::New(env, 0);
 }
 
-Napi::Value Wrapper::API_release(const Napi::CallbackInfo &info)
+Napi::Value Wrapper::API_Gpio_release(const Napi::CallbackInfo &info)
 {
   Napi::Env env = info.Env();
 
@@ -89,9 +96,9 @@ Napi::Value Wrapper::API_release(const Napi::CallbackInfo &info)
 
 // pin(number, attributes): Set pin attributes
 //  number: port number
-//  atteibutes
+//  attributes: bitwise values
 //    direction: IN or OUT
-Napi::Value Wrapper::API_pin(const Napi::CallbackInfo &info)
+Napi::Value Wrapper::API_Gpio_pin(const Napi::CallbackInfo &info)
 {
   Napi::Env env = info.Env();
 
@@ -109,7 +116,7 @@ Napi::Value Wrapper::API_pin(const Napi::CallbackInfo &info)
   return Napi::Number::New(env, 0);
 }
 
-Napi::Value Wrapper::API_set(const Napi::CallbackInfo &info)
+Napi::Value Wrapper::API_Gpio_set(const Napi::CallbackInfo &info)
 {
   Napi::Env env = info.Env();
 
