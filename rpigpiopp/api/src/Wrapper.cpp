@@ -40,6 +40,12 @@ namespace rpigpiopp
 
 void Wrapper::Init(Napi::Env &env, Napi::Object &exports)
 {
+  Wrapper::InitGpio(env, exports);
+  Wrapper::InitTM1637(env, exports);
+}
+
+void Wrapper::InitGpio(Napi::Env &env, Napi::Object &exports)
+{
   // clang-format off
   Napi::Function funcGpio = DefineClass(env, "Gpio",
     {
@@ -64,7 +70,10 @@ void Wrapper::Init(Napi::Env &env, Napi::Object &exports)
 
   // DEF for GPIO
   exports.Set("DEF", obj_def);
+}
 
+void Wrapper::InitTM1637(Napi::Env &env, Napi::Object &exports)
+{
   // TM1637 chip
   // clang-format off
   Napi::Function funcTM1637 = DefineClass(env, "TM1637",

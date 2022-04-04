@@ -34,6 +34,10 @@ public:
   static void Init(Napi::Env &env, Napi::Object &exports);
 
 private:
+  static void InitGpio(Napi::Env &env, Napi::Object &exports);
+  static void InitTM1637(Napi::Env &env, Napi::Object &exports);
+
+private:
   Napi::Value API_Gpio_init(const Napi::CallbackInfo &info);
   Napi::Value API_Gpio_release(const Napi::CallbackInfo &info);
   Napi::Value API_Gpio_pin(const Napi::CallbackInfo &info);
