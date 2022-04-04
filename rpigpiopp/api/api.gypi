@@ -14,6 +14,7 @@
       "sources": [
         "src/rpigpiopp.cpp",
         "src/Wrapper.cpp",
+        "src/WrapGpio.cpp",
       ],
       "include_dirs": [
         "<!@(node -p \"require('node-addon-api').include\")",
