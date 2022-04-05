@@ -23,22 +23,12 @@ process.stdin.resume();
 process.on('SIGINT', exitHandler.bind(null, {exit: true}));   // ctrl+c
 process.on('exit', exitHandler.bind(null, {cleanup: true}));  // app closing
 
-const TM1637_CMD_DATA = 0x40;
-const TM1637_CMD_DISPLAY = 0x80;
 const TM1637_CMD_ADDR = 0xc0;
-
-const TM1637_DATA_AUTOINC = 0x00;
-const TM1637_DATA_NORMAL = 0x00;
-
-const TM1637_DISPLAY_ON = 0x08;
 
 const TM1637_ADDR_C0H = 0x00;
 const TM1637_DBIT_COLON = 0x80;
 
 const tm1637data = Buffer.alloc(5);
-
-command = TM1637_CMD_DATA | TM1637_DATA_AUTOINC | TM1637_DATA_NORMAL;
-tm1637.write(command);
 
 // set bright to second level
 tm1637.bright(2);
