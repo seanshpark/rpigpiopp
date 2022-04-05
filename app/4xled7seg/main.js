@@ -41,8 +41,7 @@ command = TM1637_CMD_DATA | TM1637_DATA_AUTOINC | TM1637_DATA_NORMAL;
 tm1637.write(command);
 
 // set bright to second level
-command = TM1637_CMD_DISPLAY | TM1637_DISPLAY_ON | 1;
-tm1637.write(command);
+tm1637.bright(2);
 
 // clear display
 command = TM1637_CMD_ADDR | TM1637_ADDR_C0H;
@@ -73,6 +72,7 @@ tm1637.writes(tm1637data);
 
 var idx_start = 0;
 var colon = false;
+var bright = 2;
 
 function timerInterval() {
   for (i = 0; i < 4; ++i) {
@@ -85,8 +85,12 @@ function timerInterval() {
   // with command TM1637_CMD_ADDR | TM1637_ADDR_C0H
   tm1637.writes(tm1637data);
 
+  // rotate brightness
+  tm1637.bright(bright);
+
   idx_start = (idx_start + 1) % 10;
   colon = !colon;
+  bright = (bright + 1) % 8;
 }
 
 setInterval(timerInterval, 500);
