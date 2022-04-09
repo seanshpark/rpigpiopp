@@ -15,7 +15,7 @@
  */
 
 #include "tm1637/tm1637.h"
-#include "tm1637_def.h"
+#include "tm1637/tm1637_def.h"
 
 #include <iostream>
 #include <bitset>

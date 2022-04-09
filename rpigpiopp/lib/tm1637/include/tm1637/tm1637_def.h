@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-#ifndef __LIB_TM1637_DEF_H__
-#define __LIB_TM1637_DEF_H__
+#ifndef __RPIGPIOPP_LIB_TM1637_DEF_H__
+#define __RPIGPIOPP_LIB_TM1637_DEF_H__
 
 // TM1637 Comamnd mode
 #define TM1637_CMD_DATA 0x40    // 0b0100 ----
@@ -44,4 +44,4 @@
 
 #define TM1637_DBIT_COLON 0x80 // colon led on if given
 
-#endif // __LIB_TM1637_DEF_H__
+#endif // __RPIGPIOPP_LIB_TM1637_DEF_H__
