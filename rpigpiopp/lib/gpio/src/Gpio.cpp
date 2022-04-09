@@ -26,16 +26,6 @@
 namespace rpigpiopp
 {
 
-Gpio::Gpio()
-{
-  // TODO
-}
-
-Gpio::~Gpio()
-{
-  // TODO
-}
-
 bool Gpio::init(void)
 {
   std::cout << "Gpio::init" << std::endl;

@@ -33,8 +33,8 @@ public:
   };
 
 public:
-  Gpio();
-  virtual ~Gpio();
+  Gpio() = default;
+  virtual ~Gpio() = default;
 
 public:
   bool init(void);
