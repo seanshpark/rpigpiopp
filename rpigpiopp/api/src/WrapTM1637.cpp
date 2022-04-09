@@ -33,6 +33,7 @@ void Wrapper::InitTM1637(Napi::Env &env, Napi::Object &exports)
       InstanceMethod("write", &Wrapper::API_TM1637_write),
       InstanceMethod("writes", &Wrapper::API_TM1637_writes),
       InstanceMethod("bright", &Wrapper::API_TM1637_bright),
+      InstanceMethod("clear", &Wrapper::API_TM1637_clear),
       InstanceMethod("test", &Wrapper::API_TM1637_test)
     }
   );
@@ -124,6 +125,15 @@ Napi::Value Wrapper::API_TM1637_bright(const Napi::CallbackInfo &info)
   auto data = info[0].As<Napi::Number>();
 
   this->tm1637().bright(data.Int32Value() & 0xff);
+
+  return Napi::Number::New(env, 0);
+}
+
+Napi::Value Wrapper::API_TM1637_clear(const Napi::CallbackInfo &info)
+{
+  Napi::Env env = info.Env();
+
+  this->tm1637().clear();
 
   return Napi::Number::New(env, 0);
 }

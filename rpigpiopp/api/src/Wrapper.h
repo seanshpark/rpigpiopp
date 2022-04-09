@@ -49,6 +49,7 @@ private:
   Napi::Value API_TM1637_write(const Napi::CallbackInfo &info);
   Napi::Value API_TM1637_writes(const Napi::CallbackInfo &info);
   Napi::Value API_TM1637_bright(const Napi::CallbackInfo &info);
+  Napi::Value API_TM1637_clear(const Napi::CallbackInfo &info);
   Napi::Value API_TM1637_test(const Napi::CallbackInfo &info);
 
 public:
