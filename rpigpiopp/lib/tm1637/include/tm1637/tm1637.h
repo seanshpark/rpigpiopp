@@ -39,6 +39,9 @@ public:
 
   void test(void);
 
+public:
+  bool initialized(void) { return _initalized; }
+
 private:
   void dio_start(void);
   void dio_stop(void);
@@ -49,6 +52,7 @@ private:
   Gpio *_gpio = nullptr;
   int32_t _pin_clock = 0;
   int32_t _pin_dio = 0;
+  bool _initalized = false;
 };
 
 /**

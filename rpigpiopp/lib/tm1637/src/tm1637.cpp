@@ -19,6 +19,7 @@
 
 #include <iostream>
 #include <bitset>
+#include <cassert>
 
 #include <unistd.h> // usleep
 
@@ -50,6 +51,8 @@ bool TM1637::init(Gpio *gpio, int32_t clock, int32_t dio)
   _gpio->set(_pin_clock, true);
   _gpio->set(_pin_dio, true);
 
+  _initalized = true;
+
   // initialize chip
   uint8_t command;
   command = TM1637_CMD_DATA | TM1637_DATA_AUTOINC | TM1637_DATA_NORMAL;
@@ -67,9 +70,14 @@ bool TM1637::init(Gpio *gpio, int32_t clock, int32_t dio)
 void TM1637::release(void)
 {
   if (_gpio == nullptr)
+  {
+    assert(false);
     return;
+  }
 
   bright(0);
+
+  _initalized = false;
 
   _gpio->set(_pin_clock, true);
   _gpio->set(_pin_dio, true);
@@ -79,8 +87,11 @@ void TM1637::release(void)
 
 void TM1637::write(uint8_t data)
 {
-  if (_gpio == nullptr)
+  if (not _initalized)
+  {
+    assert(false);
     return;
+  }
 
   std::cout << "tm1637 write " << std::bitset<8>(data) << std::endl;
 
@@ -96,8 +107,11 @@ void TM1637::write(uint8_t data)
 
 void TM1637::writes(uint8_t *data, int32_t length)
 {
-  if (_gpio == nullptr)
+  if (not _initalized)
+  {
+    assert(false);
     return;
+  }
 
   dio_start();
 
@@ -112,8 +126,11 @@ void TM1637::writes(uint8_t *data, int32_t length)
 
 void TM1637::bright(uint8_t value)
 {
-  if (_gpio == nullptr)
+  if (not _initalized)
+  {
+    assert(false);
     return;
+  }
 
   uint8_t command;
 
