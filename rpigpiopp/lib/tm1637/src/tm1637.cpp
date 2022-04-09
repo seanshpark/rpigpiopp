@@ -124,6 +124,8 @@ void TM1637::writes(uint8_t *data, int32_t length)
   dio_stop();
 }
 
+// value 0 for display off
+// value 1 ~ 7 for display on and brighness value
 void TM1637::bright(uint8_t value)
 {
   if (not _initalized)
@@ -141,6 +143,15 @@ void TM1637::bright(uint8_t value)
     value = value > 8 ? 8 : value;
     command = TM1637_CMD_DISPLAY | TM1637_DISPLAY_ON;
     command |= (value - 1);
+    // command is pulse width for brighness
+    // 0 :  1/16
+    // 1 :  2/16
+    // 2 :  4/16
+    // 3 : 10/16
+    // 4 : 11/16
+    // 5 : 12/16
+    // 6 : 13/16
+    // 7 : 14/16
   }
 
   write(command);
