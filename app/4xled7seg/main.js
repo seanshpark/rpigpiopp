@@ -30,14 +30,11 @@ const TM1637_DBIT_COLON = 0x80;
 
 const tm1637data = Buffer.alloc(5);
 
+// clear display
+tm1637.clear();
+
 // set bright to second level
 tm1637.bright(2);
-
-// clear display
-command = TM1637_CMD_ADDR | TM1637_ADDR_C0H;
-tm1637data[0] = command;
-tm1637data[1] = tm1637data[2] = tm1637data[3] = tm1637data[4] = 0;
-tm1637.writes(tm1637data);
 
 var seg_data = [
   0b00111111,  // 0
