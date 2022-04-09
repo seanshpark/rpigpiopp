@@ -14,40 +14,34 @@
  * limitations under the License.
  */
 
-#include "Wrapper.h"
+#ifndef __RPIGPIOPP_LIB_SEG8x4LED_H__
+#define __RPIGPIOPP_LIB_SEG8x4LED_H__
 
-#include <cassert>
-#include <iostream>
+#include "tm1637/tm1637.h"
 
-namespace
-{
-
-// Temporary unique ID for testing
-volatile uint32_t __id = 0;
-
-uint32_t __get_uid(void)
-{
-  __id++;
-  return __id;
-}
-
-} // namespace
+#include <string>
 
 namespace rpigpiopp
 {
 
-void Wrapper::Init(Napi::Env &env, Napi::Object &exports)
+class LED4x7Seg
 {
-  Wrapper::InitGpio(env, exports);
-  Wrapper::InitTM1637(env, exports);
-  Wrapper::InitLED4x7Seg(env, exports);
-}
+public:
+  LED4x7Seg() = default;
+  virtual ~LED4x7Seg() = default;
 
-Wrapper::Wrapper(const Napi::CallbackInfo &info) : Napi::ObjectWrap<Wrapper>(info)
-{
-  _id = __get_uid();
+public:
+  bool init(TM1637 *tm1637);
+  void release(void);
 
-  std::cout << "Wrapper::Wrapper " << this << ": " << _id << std::endl;
-}
+  void show(const std::string value);
+  void bright(uint8_t value);
+  void clear(void);
+
+private:
+  TM1637 *_tm1637 = nullptr;
+};
 
 } // namespace rpigpiopp
+
+#endif // __RPIGPIOPP_LIB_SEG8x4LED_H__

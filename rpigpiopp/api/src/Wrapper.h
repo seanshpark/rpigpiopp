@@ -21,6 +21,7 @@
 
 #include <Gpio/Gpio.h>
 #include <tm1637/tm1637.h>
+#include <led4x7seg/led4x7seg.h>
 
 namespace rpigpiopp
 {
@@ -36,6 +37,7 @@ public:
 private:
   static void InitGpio(Napi::Env &env, Napi::Object &exports);
   static void InitTM1637(Napi::Env &env, Napi::Object &exports);
+  static void InitLED4x7Seg(Napi::Env &env, Napi::Object &exports);
 
 private:
   Napi::Value API_Gpio_init(const Napi::CallbackInfo &info);
@@ -52,19 +54,29 @@ private:
   Napi::Value API_TM1637_clear(const Napi::CallbackInfo &info);
   Napi::Value API_TM1637_test(const Napi::CallbackInfo &info);
 
+  //
+  Napi::Value API_LED4x7Seg_init(const Napi::CallbackInfo &info);
+  Napi::Value API_LED4x7Seg_release(const Napi::CallbackInfo &info);
+  Napi::Value API_LED4x7Seg_show(const Napi::CallbackInfo &info);
+  Napi::Value API_LED4x7Seg_bright(const Napi::CallbackInfo &info);
+  Napi::Value API_LED4x7Seg_clear(const Napi::CallbackInfo &info);
+
 public:
   uint32_t id() { return _id; }
   Gpio &gpio() { return _gpio_base == nullptr ? _gpio : *_gpio_base; }
-  TM1637 &tm1637() { return _tm1637; }
+  TM1637 &tm1637() { return _tm1637_base == nullptr ? _tm1637 : *_tm1637_base; }
+  LED4x7Seg &led4x7seg() { return _led4x7seg; }
 
 private:
   uint32_t _id = 0;
   Gpio _gpio;
   TM1637 _tm1637;
+  LED4x7Seg _led4x7seg;
 
 private:
   Wrapper *_parent = nullptr;
   Gpio *_gpio_base = nullptr;
+  TM1637 *_tm1637_base = nullptr;
 };
 
 } // namespace rpigpiopp
