@@ -29,16 +29,6 @@ static const uint32_t DATA_DELAY = 20;
 namespace rpigpiopp
 {
 
-TM1637::TM1637()
-{
-  // TODO
-}
-
-TM1637::~TM1637()
-{
-  // TODO
-}
-
 bool TM1637::init(Gpio *gpio, int32_t clock, int32_t dio)
 {
   _gpio = gpio;

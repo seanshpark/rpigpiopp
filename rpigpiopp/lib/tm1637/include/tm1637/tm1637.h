@@ -25,8 +25,8 @@ namespace rpigpiopp
 class TM1637
 {
 public:
-  TM1637();
-  virtual ~TM1637();
+  TM1637() = default;
+  virtual ~TM1637() = default;
 
 public:
   bool init(Gpio *gpio, int32_t clock, int32_t dio);
