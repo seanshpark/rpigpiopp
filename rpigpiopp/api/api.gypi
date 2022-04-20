@@ -13,6 +13,7 @@
         "tm1637",
         "pcf8574",
         "led4x7seg",
+        "lcd1602",
       ],
       "sources": [
         "src/rpigpiopp.cpp",
@@ -22,6 +23,7 @@
         "src/WrapTM1637.cpp",
         "src/WrapPCF8574.cpp",
         "src/WrapLED4x7Seg.cpp",
+        "src/WrapLCD1602.cpp",
       ],
       "include_dirs": [
         "<!@(node -p \"require('node-addon-api').include\")",
@@ -31,6 +33,7 @@
         "../lib/tm1637/include",
         "../lib/pcf8574/include",
         "../lib/led4x7seg/include",
+        "../lib/lcd1602/include",
       ],
       'defines': [ 'NAPI_CPP_EXCEPTIONS' ],
     }

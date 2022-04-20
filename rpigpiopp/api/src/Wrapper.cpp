@@ -45,6 +45,7 @@ void Wrapper::Init(Napi::Env &env, Napi::Object &exports)
   Wrapper::InitPCF8574(env, exports);
 
   Wrapper::InitLED4x7Seg(env, exports);
+  Wrapper::InitLCD1602(env, exports);
 }
 
 Wrapper::Wrapper(const Napi::CallbackInfo &info) : Napi::ObjectWrap<Wrapper>(info)

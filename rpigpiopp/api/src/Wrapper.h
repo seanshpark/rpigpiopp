@@ -24,6 +24,7 @@
 #include <tm1637/tm1637.h>
 #include <pcf8574/pcf8574.h>
 #include <led4x7seg/led4x7seg.h>
+#include <lcd1602/lcd1602.h>
 
 namespace rpigpiopp
 {
@@ -42,6 +43,7 @@ private:
   static void InitTM1637(Napi::Env &env, Napi::Object &exports);
   static void InitPCF8574(Napi::Env &env, Napi::Object &exports);
   static void InitLED4x7Seg(Napi::Env &env, Napi::Object &exports);
+  static void InitLCD1602(Napi::Env &env, Napi::Object &exports);
 
 private:
   Napi::Value API_Gpio_init(const Napi::CallbackInfo &info);
@@ -71,6 +73,17 @@ private:
   Napi::Value API_LED4x7Seg_bright(const Napi::CallbackInfo &info);
   Napi::Value API_LED4x7Seg_clear(const Napi::CallbackInfo &info);
 
+  Napi::Value API_LCD1602_init(const Napi::CallbackInfo &info);
+  Napi::Value API_LCD1602_release(const Napi::CallbackInfo &info);
+  Napi::Value API_LCD1602_clear(const Napi::CallbackInfo &info);
+  Napi::Value API_LCD1602_home(const Napi::CallbackInfo &info);
+  Napi::Value API_LCD1602_display(const Napi::CallbackInfo &info);
+  Napi::Value API_LCD1602_cursor(const Napi::CallbackInfo &info);
+  Napi::Value API_LCD1602_blink(const Napi::CallbackInfo &info);
+  Napi::Value API_LCD1602_puts(const Napi::CallbackInfo &info);
+  Napi::Value API_LCD1602_move(const Napi::CallbackInfo &info);
+  Napi::Value API_LCD1602_test(const Napi::CallbackInfo &info);
+
 public:
   uint32_t id() { return _id; }
   Gpio &gpio() { return _gpio_base == nullptr ? _gpio : *_gpio_base; }
@@ -78,6 +91,7 @@ public:
   TM1637 &tm1637() { return _tm1637_base == nullptr ? _tm1637 : *_tm1637_base; }
   PCF8574 &pcf8574() { return _pcf8574_base == nullptr ? _pcf8574 : *_pcf8574_base; }
   LED4x7Seg &led4x7seg() { return _led4x7seg; }
+  LCD1602 &lcd1602() { return _lcd1602; }
 
 private:
   uint32_t _id = 0;
@@ -86,6 +100,7 @@ private:
   TM1637 _tm1637;
   PCF8574 _pcf8574;
   LED4x7Seg _led4x7seg;
+  LCD1602 _lcd1602;
 
 private:
   Wrapper *_parent = nullptr;
