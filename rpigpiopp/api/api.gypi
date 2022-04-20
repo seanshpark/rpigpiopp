@@ -9,6 +9,7 @@
       "dependencies": [
         "base",
         "gpio",
+        "i2c",
         "tm1637",
         "led4x7seg",
       ],
@@ -16,6 +17,7 @@
         "src/rpigpiopp.cpp",
         "src/Wrapper.cpp",
         "src/WrapGpio.cpp",
+        "src/WrapI2C.cpp",
         "src/WrapTM1637.cpp",
         "src/WrapLED4x7Seg.cpp",
       ],
@@ -23,6 +25,7 @@
         "<!@(node -p \"require('node-addon-api').include\")",
         "../lib/base/include",
         "../lib/gpio/include",
+        "../lib/i2c/include",
         "../lib/tm1637/include",
         "../lib/led4x7seg/include",
       ],
