@@ -55,18 +55,18 @@ Napi::Value Wrapper::API_TM1637_init(const Napi::CallbackInfo &info)
 
   auto gpioObj = info[0].As<Napi::Object>();
   Wrapper *wrapper = Napi::ObjectWrap<Wrapper>::Unwrap(gpioObj);
-  std::cout << "!!! init with gpio " << wrapper << std::endl;
+  std::cout << "!!! init tm1637 with gpio " << wrapper << std::endl;
 
   _parent = wrapper;
   if (!_parent->gpio().initialized())
-    Napi::Error::New(env, "gpio not initialized").ThrowAsJavaScriptException();
+    Napi::Error::New(env, "tm1637: gpio not initialized").ThrowAsJavaScriptException();
   _gpio_base = &_parent->gpio();
 
   auto cmd = info[1].As<Napi::Number>();
   auto dio = info[2].As<Napi::Number>();
 
   if (!this->tm1637().init(&this->gpio(), cmd.Int32Value(), dio.Int32Value()))
-    Napi::Error::New(env, "TM1637 init failed").ThrowAsJavaScriptException();
+    Napi::Error::New(env, "tm1637 init failed").ThrowAsJavaScriptException();
 
   return Napi::Number::New(env, 0);
 }
