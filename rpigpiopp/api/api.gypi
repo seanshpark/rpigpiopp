@@ -11,6 +11,7 @@
         "gpio",
         "i2c",
         "tm1637",
+        "pcf8574",
         "led4x7seg",
       ],
       "sources": [
@@ -19,6 +20,7 @@
         "src/WrapGpio.cpp",
         "src/WrapI2C.cpp",
         "src/WrapTM1637.cpp",
+        "src/WrapPCF8574.cpp",
         "src/WrapLED4x7Seg.cpp",
       ],
       "include_dirs": [
@@ -27,6 +29,7 @@
         "../lib/gpio/include",
         "../lib/i2c/include",
         "../lib/tm1637/include",
+        "../lib/pcf8574/include",
         "../lib/led4x7seg/include",
       ],
       'defines': [ 'NAPI_CPP_EXCEPTIONS' ],
