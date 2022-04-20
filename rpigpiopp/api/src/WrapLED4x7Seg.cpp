@@ -57,12 +57,12 @@ Napi::Value Wrapper::API_LED4x7Seg_init(const Napi::CallbackInfo &info)
 
   _parent = wrapper;
   if (!_parent->tm1637().initialized())
-    Napi::Error::New(env, "tm1637 not initialized").ThrowAsJavaScriptException();
+    Napi::Error::New(env, "led4x7seg: tm1637 not initialized").ThrowAsJavaScriptException();
   _gpio_base = &_parent->gpio();
   _tm1637_base = &_parent->tm1637();
 
   if (!this->led4x7seg().init(&this->tm1637()))
-    Napi::Error::New(env, "LED4x7Seg init failed").ThrowAsJavaScriptException();
+    Napi::Error::New(env, "led4x7seg init failed").ThrowAsJavaScriptException();
 
   return Napi::Number::New(env, 0);
 }
