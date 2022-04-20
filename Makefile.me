@@ -15,6 +15,9 @@ clean:
 led4:
 	$(NODE) app/4xled7seg/main2.js
 
+lcd16:
+	$(NODE) app/lcd1602/main.js
+
 format:
 	@find rpigpiopp -type f \( -name '*.cpp' -o -name '*.h' \) | xargs clang-format -i
 	@find app -type f \( -name '*.ts' -o -name '*.js' \) | xargs clang-format -i

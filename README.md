@@ -13,4 +13,7 @@ make -f Makefile.me cfg debug
 
 # run LED4x7Seg demo
 make -f Makefile.me led4
+
+# run LCD1602 demo
+make -f Makefile.me lcd16
 ```
