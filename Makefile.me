@@ -21,6 +21,12 @@ lcd16:
 oled:
 	$(NODE) app/oled128x64/main.js
 
+ofont:
+	$(NODE) app/oled128x64/font.js
+
+ofont2:
+	$(NODE) app/oled128x64/font2.js
+
 format:
 	@find rpigpiopp -type f \( -name '*.cpp' -o -name '*.h' \) | xargs clang-format -i
 	@find app -type f \( -name '*.ts' -o -name '*.js' \) | xargs clang-format -i
