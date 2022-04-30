@@ -25,6 +25,7 @@
 #include <pcf8574/pcf8574.h>
 #include <led4x7seg/led4x7seg.h>
 #include <lcd1602/lcd1602.h>
+#include <oled128x64/oled128x64.h>
 
 namespace rpigpiopp
 {
@@ -44,6 +45,7 @@ private:
   static void InitPCF8574(Napi::Env &env, Napi::Object &exports);
   static void InitLED4x7Seg(Napi::Env &env, Napi::Object &exports);
   static void InitLCD1602(Napi::Env &env, Napi::Object &exports);
+  static void InitOLED128x64(Napi::Env &env, Napi::Object &exports);
 
 private:
   Napi::Value API_Gpio_init(const Napi::CallbackInfo &info);
@@ -84,6 +86,16 @@ private:
   Napi::Value API_LCD1602_move(const Napi::CallbackInfo &info);
   Napi::Value API_LCD1602_test(const Napi::CallbackInfo &info);
 
+  Napi::Value API_OLED128x64_init(const Napi::CallbackInfo &info);
+  Napi::Value API_OLED128x64_release(const Napi::CallbackInfo &info);
+  Napi::Value API_OLED128x64_cmd(const Napi::CallbackInfo &info);
+  Napi::Value API_OLED128x64_data(const Napi::CallbackInfo &info);
+  Napi::Value API_OLED128x64_addrMode(const Napi::CallbackInfo &info);
+  Napi::Value API_OLED128x64_colAddr(const Napi::CallbackInfo &info);
+  Napi::Value API_OLED128x64_pageAddr(const Napi::CallbackInfo &info);
+  Napi::Value API_OLED128x64_clear(const Napi::CallbackInfo &info);
+  Napi::Value API_OLED128x64_test(const Napi::CallbackInfo &info);
+
 public:
   uint32_t id() { return _id; }
   Gpio &gpio() { return _gpio_base == nullptr ? _gpio : *_gpio_base; }
@@ -92,6 +104,7 @@ public:
   PCF8574 &pcf8574() { return _pcf8574_base == nullptr ? _pcf8574 : *_pcf8574_base; }
   LED4x7Seg &led4x7seg() { return _led4x7seg; }
   LCD1602 &lcd1602() { return _lcd1602; }
+  OLED128x64 &oled128x64() { return _oled128x64; }
 
 private:
   uint32_t _id = 0;
@@ -101,6 +114,7 @@ private:
   PCF8574 _pcf8574;
   LED4x7Seg _led4x7seg;
   LCD1602 _lcd1602;
+  OLED128x64 _oled128x64;
 
 private:
   Wrapper *_parent = nullptr;
