@@ -16,6 +16,7 @@ oled128x64.init(i2c);
 
 function exitHandler(options, exitCode) {
   if (options.exit) {
+    oled128x64.release();
     i2c.release();
     gpiobj.release();
     process.exit(exitCode);
