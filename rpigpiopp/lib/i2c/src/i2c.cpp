@@ -16,6 +16,7 @@
 
 #include "i2c/i2c.h"
 
+#include <bitset>
 #include <iostream>
 #include <cassert>
 
@@ -31,7 +32,7 @@ namespace rpigpiopp
 // gpio is not used for now.
 bool I2C::init(Gpio *gpio, int32_t dev, int32_t addr)
 {
-  std::cout << "I2C::init" << std::endl;
+  std::cout << "I2C::init " << dev << ": 0x" << std::hex << addr << std::endl;
 
   // support i2c-1 ~ i2c-9
   if (dev < 1 || dev > 9)
@@ -82,7 +83,25 @@ bool I2C::write_byte(uint8_t b)
   if (_dev_fd <= 0)
     return false;
 
-  if (write(_dev_fd, &b, 1) != 1)
+  std::cout << "I2C " << std::hex << int32_t(b) << std::endl;
+
+  if (::write(_dev_fd, &b, 1) != 1)
+  {
+    return false;
+  }
+  return true;
+}
+
+bool I2C::write_buffer(uint8_t *b, size_t s)
+{
+  assert(_dev_fd > 0);
+
+  if (_dev_fd <= 0)
+    return false;
+
+  // std::cout << "I2C write_buffer" << s << std::endl;
+
+  if ((size_t)::write(_dev_fd, b, s) != s)
   {
     return false;
   }

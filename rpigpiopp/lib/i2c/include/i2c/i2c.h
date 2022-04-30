@@ -37,6 +37,7 @@ public:
 
 public:
   bool write_byte(uint8_t b);
+  bool write_buffer(uint8_t *b, size_t s);
 
 private:
   Gpio *_gpio = nullptr; // not used for now

@@ -31,7 +31,7 @@ void Wrapper::InitI2C(Napi::Env &env, Napi::Object &exports)
     {
       InstanceMethod("init", &Wrapper::API_I2C_init),
       InstanceMethod("release", &Wrapper::API_I2C_release),
-      InstanceMethod("test", &Wrapper::API_I2C_test)
+      InstanceMethod("write", &Wrapper::API_I2C_write)
     }
   );
   // clang-format on
@@ -78,11 +78,26 @@ Napi::Value Wrapper::API_I2C_release(const Napi::CallbackInfo &info)
   return Napi::Number::New(env, 0);
 }
 
-Napi::Value Wrapper::API_I2C_test(const Napi::CallbackInfo &info)
+Napi::Value Wrapper::API_I2C_write(const Napi::CallbackInfo &info)
 {
   Napi::Env env = info.Env();
 
-  // this->i2c().test();
+  if (info.Length() != 1)
+  {
+    Napi::Error::New(env, "Requre 1 argument(data)").ThrowAsJavaScriptException();
+  }
+
+  if (not info[0].IsArrayBuffer())
+  {
+    Napi::Error::New(env, "Argument shoud be Buffer").ThrowAsJavaScriptException();
+  }
+
+  auto data = info[0].As<Napi::ArrayBuffer>();
+  auto buffer = reinterpret_cast<uint8_t *>(data.Data());
+  if (!this->i2c().write_buffer(buffer, data.ByteLength()))
+  {
+    Napi::Error::New(env, "Failed to write I2C").ThrowAsJavaScriptException();
+  }
 
   return Napi::Number::New(env, 0);
 }

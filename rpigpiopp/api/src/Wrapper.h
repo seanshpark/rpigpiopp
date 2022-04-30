@@ -53,7 +53,7 @@ private:
 
   Napi::Value API_I2C_init(const Napi::CallbackInfo &info);
   Napi::Value API_I2C_release(const Napi::CallbackInfo &info);
-  Napi::Value API_I2C_test(const Napi::CallbackInfo &info);
+  Napi::Value API_I2C_write(const Napi::CallbackInfo &info);
 
   Napi::Value API_TM1637_init(const Napi::CallbackInfo &info);
   Napi::Value API_TM1637_release(const Napi::CallbackInfo &info);
