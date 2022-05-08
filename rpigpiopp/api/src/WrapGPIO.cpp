@@ -46,6 +46,7 @@ void Wrapper::InitGPIO(Napi::Env &env, Napi::Object &exports)
 
   Napi::Object obj_def = Napi::Object::New(env);
   obj_def.Set(Napi::String::New(env, "IN"), Napi::Number::New(env, GPIO::PIN::IN));
+  obj_def.Set(Napi::String::New(env, "ALT0"), Napi::Number::New(env, GPIO::PIN::ALT0));
   obj_def.Set(Napi::String::New(env, "OUT"), Napi::Number::New(env, GPIO::PIN::OUT));
 
   // DEF for GPIO

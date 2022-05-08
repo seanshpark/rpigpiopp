@@ -72,6 +72,7 @@ void GPIO::release(void)
 void GPIO::cfg(int32_t pin, PIN dir)
 {
   const uint32_t FSEL_MASK = 0x07; // set as input with mask to clear bit
+  const uint32_t FSEL_ALT0 = 0x04; // alternative function 0
   const uint32_t FSEL_SOUT = 0x01; // set as output
   uint32_t offset = pin / 10;
   uint32_t shift = (pin % 10) * 3;
@@ -84,6 +85,10 @@ void GPIO::cfg(int32_t pin, PIN dir)
 
     case PIN::OUT:
       *(addr(offset)) |= (FSEL_SOUT << shift);
+      break;
+
+    case PIN::ALT0:
+      *(addr(offset)) |= (FSEL_ALT0 << shift);
       break;
   }
 }

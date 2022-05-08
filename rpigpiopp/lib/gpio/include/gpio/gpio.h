@@ -30,6 +30,7 @@ public:
   {
     IN = 1,
     OUT = 2,
+    ALT0 = 3,
   };
 
 public:
