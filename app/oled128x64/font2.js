@@ -230,7 +230,7 @@ function display_font(data) {
   for (i = 0; i < 64; i++) {
     oled128x64.colAddr(x, x + 7);
 
-    nl = 0; // new line?
+    nl = 0;  // new line?
     x = x + 8;
     if (x >= 128) {
       x = 0;
