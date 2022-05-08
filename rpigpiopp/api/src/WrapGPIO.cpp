@@ -21,6 +21,8 @@
 #include <cassert>
 #include <iostream>
 
+#include <unistd.h> // usleep
+
 namespace rpigpiopp
 {
 
@@ -33,6 +35,7 @@ void Wrapper::InitGPIO(Napi::Env &env, Napi::Object &exports)
       InstanceMethod("release", &Wrapper::API_GPIO_release),
       InstanceMethod("pin", &Wrapper::API_GPIO_pin),
       InstanceMethod("set", &Wrapper::API_GPIO_set),
+      InstanceMethod("delay", &Wrapper::API_GPIO_delay)
     }
   );
   // clang-format on
@@ -108,6 +111,22 @@ Napi::Value Wrapper::API_GPIO_set(const Napi::CallbackInfo &info)
 
   std::cout << "!!! set: " << port.Int32Value() << ": " << (value.Value() ? "T" : "F") << std::endl;
   this->gpio().set(port.Int32Value(), value.Value());
+
+  return Napi::Number::New(env, 0);
+}
+
+Napi::Value Wrapper::API_GPIO_delay(const Napi::CallbackInfo &info)
+{
+  Napi::Env env = info.Env();
+
+  if (info.Length() != 1)
+  {
+    Napi::Error::New(env, "Requre 2 arguments(value)").ThrowAsJavaScriptException();
+  }
+
+  auto usec = info[0].As<Napi::Number>();
+
+  usleep(usec.Int32Value());
 
   return Napi::Number::New(env, 0);
 }
