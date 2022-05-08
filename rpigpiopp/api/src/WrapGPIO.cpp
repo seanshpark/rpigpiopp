@@ -16,7 +16,7 @@
 
 #include "Wrapper.h"
 
-#include <Gpio/Gpio.h>
+#include <gpio/gpio.h>
 
 #include <cassert>
 #include <iostream>
@@ -24,35 +24,35 @@
 namespace rpigpiopp
 {
 
-void Wrapper::InitGpio(Napi::Env &env, Napi::Object &exports)
+void Wrapper::InitGPIO(Napi::Env &env, Napi::Object &exports)
 {
   // clang-format off
-  Napi::Function funcGpio = DefineClass(env, "Gpio",
+  Napi::Function funcGPIO = DefineClass(env, "GPIO",
     {
-      InstanceMethod("init", &Wrapper::API_Gpio_init),
-      InstanceMethod("release", &Wrapper::API_Gpio_release),
-      InstanceMethod("pin", &Wrapper::API_Gpio_pin),
-      InstanceMethod("set", &Wrapper::API_Gpio_set)
+      InstanceMethod("init", &Wrapper::API_GPIO_init),
+      InstanceMethod("release", &Wrapper::API_GPIO_release),
+      InstanceMethod("pin", &Wrapper::API_GPIO_pin),
+      InstanceMethod("set", &Wrapper::API_GPIO_set),
     }
   );
   // clang-format on
 
   Napi::FunctionReference *constructor = new Napi::FunctionReference();
-  *constructor = Napi::Persistent(funcGpio);
+  *constructor = Napi::Persistent(funcGPIO);
   env.SetInstanceData(constructor);
 
   // GPIO
-  exports.Set("Gpio", funcGpio);
+  exports.Set("GPIO", funcGPIO);
 
   Napi::Object obj_def = Napi::Object::New(env);
-  obj_def.Set(Napi::String::New(env, "IN"), Napi::Number::New(env, Gpio::PIN::IN));
-  obj_def.Set(Napi::String::New(env, "OUT"), Napi::Number::New(env, Gpio::PIN::OUT));
+  obj_def.Set(Napi::String::New(env, "IN"), Napi::Number::New(env, GPIO::PIN::IN));
+  obj_def.Set(Napi::String::New(env, "OUT"), Napi::Number::New(env, GPIO::PIN::OUT));
 
   // DEF for GPIO
   exports.Set("DEF", obj_def);
 }
 
-Napi::Value Wrapper::API_Gpio_init(const Napi::CallbackInfo &info)
+Napi::Value Wrapper::API_GPIO_init(const Napi::CallbackInfo &info)
 {
   Napi::Env env = info.Env();
 
@@ -62,7 +62,7 @@ Napi::Value Wrapper::API_Gpio_init(const Napi::CallbackInfo &info)
   return Napi::Number::New(env, 0);
 }
 
-Napi::Value Wrapper::API_Gpio_release(const Napi::CallbackInfo &info)
+Napi::Value Wrapper::API_GPIO_release(const Napi::CallbackInfo &info)
 {
   Napi::Env env = info.Env();
 
@@ -75,7 +75,7 @@ Napi::Value Wrapper::API_Gpio_release(const Napi::CallbackInfo &info)
 //  number: port number
 //  attributes: bitwise values
 //    direction: IN or OUT
-Napi::Value Wrapper::API_Gpio_pin(const Napi::CallbackInfo &info)
+Napi::Value Wrapper::API_GPIO_pin(const Napi::CallbackInfo &info)
 {
   Napi::Env env = info.Env();
 
@@ -88,12 +88,12 @@ Napi::Value Wrapper::API_Gpio_pin(const Napi::CallbackInfo &info)
   auto value = info[1].As<Napi::Number>();
 
   std::cout << "!!! pin: " << port.Int32Value() << ": " << value.Int32Value() << std::endl;
-  this->gpio().cfg(port.Int32Value(), static_cast<Gpio::PIN>(value.Int32Value()));
+  this->gpio().cfg(port.Int32Value(), static_cast<GPIO::PIN>(value.Int32Value()));
 
   return Napi::Number::New(env, 0);
 }
 
-Napi::Value Wrapper::API_Gpio_set(const Napi::CallbackInfo &info)
+Napi::Value Wrapper::API_GPIO_set(const Napi::CallbackInfo &info)
 {
   Napi::Env env = info.Env();
 

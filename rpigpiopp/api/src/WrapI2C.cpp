@@ -16,7 +16,7 @@
 
 #include "Wrapper.h"
 
-#include <Gpio/Gpio.h>
+#include <gpio/gpio.h>
 
 #include <cassert>
 #include <iostream>

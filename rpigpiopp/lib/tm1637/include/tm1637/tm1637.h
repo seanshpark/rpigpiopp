@@ -17,7 +17,7 @@
 #ifndef __RPIGPIOPP_LIB_TM1637_H__
 #define __RPIGPIOPP_LIB_TM1637_H__
 
-#include "Gpio/Gpio.h"
+#include "gpio/gpio.h"
 
 namespace rpigpiopp
 {
@@ -29,7 +29,7 @@ public:
   virtual ~TM1637() = default;
 
 public:
-  bool init(Gpio *gpio, int32_t clock, int32_t dio);
+  bool init(GPIO *gpio, int32_t clock, int32_t dio);
   void release(void);
 
   void write(uint8_t data);
@@ -49,7 +49,7 @@ private:
   void skip_ack(void);
 
 private:
-  Gpio *_gpio = nullptr;
+  GPIO *_gpio = nullptr;
   int32_t _pin_clock = 0;
   int32_t _pin_dio = 0;
   bool _initalized = false;

@@ -6,7 +6,7 @@
 const rpigpiopp = require(process.cwd() + '/build/Debug/rpigpiopp');
 const DEF = rpigpiopp.DEF;
 
-const gpiobj = new rpigpiopp.Gpio();
+const gpiobj = new rpigpiopp.GPIO();
 gpiobj.init();
 
 function exitHandler(options, exitCode) {

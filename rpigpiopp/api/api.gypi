@@ -19,7 +19,7 @@
       "sources": [
         "src/rpigpiopp.cpp",
         "src/Wrapper.cpp",
-        "src/WrapGpio.cpp",
+        "src/WrapGPIO.cpp",
         "src/WrapI2C.cpp",
         "src/WrapTM1637.cpp",
         "src/WrapPCF8574.cpp",

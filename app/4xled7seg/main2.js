@@ -5,7 +5,7 @@
 // TODO fix load path
 const rpigpiopp = require(process.cwd() + '/build/Debug/rpigpiopp');
 
-const gpiobj = new rpigpiopp.Gpio();
+const gpiobj = new rpigpiopp.GPIO();
 gpiobj.init();
 
 const tm1637 = new rpigpiopp.TM1637();

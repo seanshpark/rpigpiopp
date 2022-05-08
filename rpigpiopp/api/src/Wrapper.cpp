@@ -38,7 +38,7 @@ namespace rpigpiopp
 
 void Wrapper::Init(Napi::Env &env, Napi::Object &exports)
 {
-  Wrapper::InitGpio(env, exports);
+  Wrapper::InitGPIO(env, exports);
   Wrapper::InitI2C(env, exports);
 
   Wrapper::InitTM1637(env, exports);

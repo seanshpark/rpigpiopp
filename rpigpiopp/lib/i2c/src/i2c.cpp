@@ -30,7 +30,7 @@ namespace rpigpiopp
 {
 
 // gpio is not used for now.
-bool I2C::init(Gpio *gpio, int32_t dev, int32_t addr)
+bool I2C::init(GPIO *gpio, int32_t dev, int32_t addr)
 {
   std::cout << "I2C::init " << dev << ": 0x" << std::hex << addr << std::endl;
 

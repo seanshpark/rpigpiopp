@@ -23,7 +23,7 @@
 namespace rpigpiopp
 {
 
-class Gpio
+class GPIO
 {
 public:
   enum PIN
@@ -33,8 +33,8 @@ public:
   };
 
 public:
-  Gpio() = default;
-  virtual ~Gpio() = default;
+  GPIO() = default;
+  virtual ~GPIO() = default;
 
 public:
   bool init(void);

@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-#include "Gpio/Gpio.h"
-#include "Gpio/AddrInfo.h"
+#include "gpio/gpio.h"
+#include "gpio/AddrInfo.h"
 
 #include <iostream>
 
@@ -26,9 +26,9 @@
 namespace rpigpiopp
 {
 
-bool Gpio::init(void)
+bool GPIO::init(void)
 {
-  std::cout << "Gpio::init" << std::endl;
+  std::cout << "GPIO::init" << std::endl;
 
   _mem_fd = open("/dev/gpiomem", O_RDWR | O_SYNC);
   if (_mem_fd < 0)
@@ -51,7 +51,7 @@ bool Gpio::init(void)
   return true;
 }
 
-void Gpio::release(void)
+void GPIO::release(void)
 {
   if (_gpio_map != MAP_FAILED)
   {
@@ -66,10 +66,10 @@ void Gpio::release(void)
   _gpio_size = 0;
   _mem_fd = 0;
 
-  std::cout << "Gpio::release" << std::endl;
+  std::cout << "GPIO::release" << std::endl;
 }
 
-void Gpio::cfg(int32_t pin, PIN dir)
+void GPIO::cfg(int32_t pin, PIN dir)
 {
   const uint32_t FSEL_MASK = 0x07; // set as input with mask to clear bit
   const uint32_t FSEL_SOUT = 0x01; // set as output
@@ -86,7 +86,7 @@ void Gpio::cfg(int32_t pin, PIN dir)
   }
 }
 
-void Gpio::set(int32_t pin, bool val)
+void GPIO::set(int32_t pin, bool val)
 {
   // TODO move to header
   const uint32_t GPSET0 = 0x001c;

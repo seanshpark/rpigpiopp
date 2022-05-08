@@ -19,7 +19,7 @@
 
 #include "node_wrap.h"
 
-#include <Gpio/Gpio.h>
+#include <gpio/gpio.h>
 #include <i2c/i2c.h>
 #include <tm1637/tm1637.h>
 #include <pcf8574/pcf8574.h>
@@ -39,7 +39,7 @@ public:
   static void Init(Napi::Env &env, Napi::Object &exports);
 
 private:
-  static void InitGpio(Napi::Env &env, Napi::Object &exports);
+  static void InitGPIO(Napi::Env &env, Napi::Object &exports);
   static void InitI2C(Napi::Env &env, Napi::Object &exports);
   static void InitTM1637(Napi::Env &env, Napi::Object &exports);
   static void InitPCF8574(Napi::Env &env, Napi::Object &exports);
@@ -48,10 +48,11 @@ private:
   static void InitOLED128x64(Napi::Env &env, Napi::Object &exports);
 
 private:
-  Napi::Value API_Gpio_init(const Napi::CallbackInfo &info);
-  Napi::Value API_Gpio_release(const Napi::CallbackInfo &info);
-  Napi::Value API_Gpio_pin(const Napi::CallbackInfo &info);
-  Napi::Value API_Gpio_set(const Napi::CallbackInfo &info);
+  Napi::Value API_GPIO_init(const Napi::CallbackInfo &info);
+  Napi::Value API_GPIO_release(const Napi::CallbackInfo &info);
+  Napi::Value API_GPIO_pin(const Napi::CallbackInfo &info);
+  Napi::Value API_GPIO_set(const Napi::CallbackInfo &info);
+  Napi::Value API_GPIO_delay(const Napi::CallbackInfo &info);
 
   Napi::Value API_I2C_init(const Napi::CallbackInfo &info);
   Napi::Value API_I2C_release(const Napi::CallbackInfo &info);
@@ -98,7 +99,7 @@ private:
 
 public:
   uint32_t id() { return _id; }
-  Gpio &gpio() { return _gpio_base == nullptr ? _gpio : *_gpio_base; }
+  GPIO &gpio() { return _gpio_base == nullptr ? _gpio : *_gpio_base; }
   I2C &i2c() { return _i2c_base == nullptr ? _i2c : *_i2c_base; }
   TM1637 &tm1637() { return _tm1637_base == nullptr ? _tm1637 : *_tm1637_base; }
   PCF8574 &pcf8574() { return _pcf8574_base == nullptr ? _pcf8574 : *_pcf8574_base; }
@@ -108,7 +109,7 @@ public:
 
 private:
   uint32_t _id = 0;
-  Gpio _gpio;
+  GPIO _gpio;
   I2C _i2c;
   TM1637 _tm1637;
   PCF8574 _pcf8574;
@@ -118,7 +119,7 @@ private:
 
 private:
   Wrapper *_parent = nullptr;
-  Gpio *_gpio_base = nullptr;
+  GPIO *_gpio_base = nullptr;
   I2C *_i2c_base = nullptr;
   TM1637 *_tm1637_base = nullptr;
   PCF8574 *_pcf8574_base = nullptr;

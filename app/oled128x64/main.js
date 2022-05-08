@@ -5,7 +5,7 @@
 // TODO fix load path
 const rpigpiopp = require(process.cwd() + '/build/Debug/rpigpiopp');
 
-const gpiobj = new rpigpiopp.Gpio();
+const gpiobj = new rpigpiopp.GPIO();
 gpiobj.init();
 
 const i2c = new rpigpiopp.I2C();

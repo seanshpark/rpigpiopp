@@ -5,7 +5,7 @@
       "type": "static_library",
 
       "sources": [
-        "gpio/src/Gpio.cpp",
+        "gpio/src/gpio.cpp",
       ],
       "include_dirs": [
         "gpio/include"

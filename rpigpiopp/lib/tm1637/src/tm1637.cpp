@@ -29,14 +29,14 @@ static const uint32_t DATA_DELAY = 20;
 namespace rpigpiopp
 {
 
-bool TM1637::init(Gpio *gpio, int32_t clock, int32_t dio)
+bool TM1637::init(GPIO *gpio, int32_t clock, int32_t dio)
 {
   _gpio = gpio;
   _pin_clock = clock;
   _pin_dio = dio;
 
-  _gpio->cfg(_pin_clock, Gpio::PIN::OUT);
-  _gpio->cfg(_pin_dio, Gpio::PIN::OUT);
+  _gpio->cfg(_pin_clock, GPIO::PIN::OUT);
+  _gpio->cfg(_pin_dio, GPIO::PIN::OUT);
 
   _gpio->set(_pin_clock, true);
   _gpio->set(_pin_dio, true);

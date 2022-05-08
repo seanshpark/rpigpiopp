@@ -17,7 +17,7 @@
 #ifndef __RPIGPIOPP_LIB_I2C_H__
 #define __RPIGPIOPP_LIB_I2C_H__
 
-#include "Gpio/Gpio.h"
+#include "gpio/gpio.h"
 
 namespace rpigpiopp
 {
@@ -29,7 +29,7 @@ public:
   virtual ~I2C() = default;
 
 public:
-  bool init(Gpio *gpio, int32_t dev, int32_t addr);
+  bool init(GPIO *gpio, int32_t dev, int32_t addr);
   void release(void);
 
 public:
@@ -40,7 +40,7 @@ public:
   bool write_buffer(uint8_t *b, size_t s);
 
 private:
-  Gpio *_gpio = nullptr; // not used for now
+  GPIO *_gpio = nullptr; // not used for now
   int _dev_fd = -1;
   int32_t _dev = 0;  // /dev/i2c-?
   int32_t _addr = 0; // I2C slave address
