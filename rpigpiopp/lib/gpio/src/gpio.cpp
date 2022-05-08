@@ -76,13 +76,15 @@ void GPIO::cfg(int32_t pin, PIN dir)
   uint32_t offset = pin / 10;
   uint32_t shift = (pin % 10) * 3;
 
-  if (dir == PIN::IN)
+  switch (dir)
   {
-    *(addr(offset)) &= ~(FSEL_MASK << shift);
-  }
-  else if (dir == PIN::OUT)
-  {
-    *(addr(offset)) |= (FSEL_SOUT << shift);
+    case PIN::IN:
+      *(addr(offset)) &= ~(FSEL_MASK << shift);
+      break;
+
+    case PIN::OUT:
+      *(addr(offset)) |= (FSEL_SOUT << shift);
+      break;
   }
 }
 
