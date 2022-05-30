@@ -40,6 +40,7 @@ void Wrapper::Init(Napi::Env &env, Napi::Object &exports)
 {
   Wrapper::InitGPIO(env, exports);
   Wrapper::InitI2C(env, exports);
+  Wrapper::InitSPI(env, exports);
 
   Wrapper::InitTM1637(env, exports);
   Wrapper::InitPCF8574(env, exports);

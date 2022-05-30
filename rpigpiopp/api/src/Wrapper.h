@@ -21,6 +21,7 @@
 
 #include <gpio/gpio.h>
 #include <i2c/i2c.h>
+#include <spi/spi.h>
 #include <tm1637/tm1637.h>
 #include <pcf8574/pcf8574.h>
 #include <led4x7seg/led4x7seg.h>
@@ -41,6 +42,7 @@ public:
 private:
   static void InitGPIO(Napi::Env &env, Napi::Object &exports);
   static void InitI2C(Napi::Env &env, Napi::Object &exports);
+  static void InitSPI(Napi::Env &env, Napi::Object &exports);
   static void InitTM1637(Napi::Env &env, Napi::Object &exports);
   static void InitPCF8574(Napi::Env &env, Napi::Object &exports);
   static void InitLED4x7Seg(Napi::Env &env, Napi::Object &exports);
@@ -57,6 +59,10 @@ private:
   Napi::Value API_I2C_init(const Napi::CallbackInfo &info);
   Napi::Value API_I2C_release(const Napi::CallbackInfo &info);
   Napi::Value API_I2C_write(const Napi::CallbackInfo &info);
+
+  Napi::Value API_SPI_init(const Napi::CallbackInfo &info);
+  Napi::Value API_SPI_release(const Napi::CallbackInfo &info);
+  Napi::Value API_SPI_write(const Napi::CallbackInfo &info);
 
   Napi::Value API_TM1637_init(const Napi::CallbackInfo &info);
   Napi::Value API_TM1637_release(const Napi::CallbackInfo &info);
@@ -101,6 +107,7 @@ public:
   uint32_t id() { return _id; }
   GPIO &gpio() { return _gpio_base == nullptr ? _gpio : *_gpio_base; }
   I2C &i2c() { return _i2c_base == nullptr ? _i2c : *_i2c_base; }
+  SPI &spi() { return _spi_base == nullptr ? _spi : *_spi_base; }
   TM1637 &tm1637() { return _tm1637_base == nullptr ? _tm1637 : *_tm1637_base; }
   PCF8574 &pcf8574() { return _pcf8574_base == nullptr ? _pcf8574 : *_pcf8574_base; }
   LED4x7Seg &led4x7seg() { return _led4x7seg; }
@@ -111,6 +118,7 @@ private:
   uint32_t _id = 0;
   GPIO _gpio;
   I2C _i2c;
+  SPI _spi;
   TM1637 _tm1637;
   PCF8574 _pcf8574;
   LED4x7Seg _led4x7seg;
@@ -121,6 +129,7 @@ private:
   Wrapper *_parent = nullptr;
   GPIO *_gpio_base = nullptr;
   I2C *_i2c_base = nullptr;
+  SPI *_spi_base = nullptr;
   TM1637 *_tm1637_base = nullptr;
   PCF8574 *_pcf8574_base = nullptr;
 };
